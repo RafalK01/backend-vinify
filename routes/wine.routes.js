@@ -31,7 +31,7 @@ router.get('/random-wine', (req, res) => {
 
 // GET/api/search-wine - returns wines matching search parameters
   router.get("/search-wine", async (req, res) => {
-    const { name, origin, pairingItems, kind } = req.query
+    const { name, origin, pairing, kind } = req.query
   
     const query = {}
   
@@ -43,8 +43,8 @@ router.get('/random-wine', (req, res) => {
       query.origin = { $regex: origin, $options: "i" }
     }
   
-    if (pairingItems) {
-      query.pairingItems = { $in: pairingItems.split(",") }
+    if (pairing) {
+      query.pairing = { $in: pairing.split(",") }
     }
   
     if (kind) {

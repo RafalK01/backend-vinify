@@ -31,34 +31,44 @@ router.get('/random-wine', (req, res) => {
 
 // GET/api/search-wine - returns wines matching search parameters
   router.get("/search-wine", async (req, res) => {
-    const { name, origin, pairing, kind } = req.query
-  
-    const query = {}
-  
-    if (name) {
-      query.name = { $regex: name, $options: "i" }
-    }
-  
-    if (origin) {
-      query.origin = { $regex: origin, $options: "i" }
-    }
-  
-    if (pairing) {
-      query.pairing = { $in: pairing.split(",") }
-    }
-  
-    if (kind) {
-      query.kind = { $regex: kind, $options: "i" }
-    }
-  
-    try {
-      const wines = await Wine.find(query)
-      res.json(wines);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Server Error")
-    }
+    const {  query, kind, origin, paring } = req.query   
+
+    if(query){
+      Wine.find({ name: query })
+      .then((result) => res.status(200).json(result))
+      .catch(err => {
+        res.status(500).json({ error: err.message })
+      }) 
+    } 
+    if(kind){
+      Wine.find({kind: kind})
+      .then((result) => res.status(200).json(result))
+      .catch(err => {
+        res.status(500).json({ error: err.message })
+      }) 
+    } 
+    if(origin){
+      Wine.find({origin: origin})
+      .then((result) =>  res.status(200).json(result))
+      .catch(err => {
+        res.status(500).json({ error: err.message })
+      }) 
+    } 
+    if(paring){
+      Wine.find({pairingInfo: paring})
+      .then((result) => res.status(200).json(result))
+      .catch(err => {
+        res.status(500).json({ error: err.message })
+      }) 
+    } 
   })
+
+
+  
+
+  
+
+
 
   router.get('/wine/:wineId', (req, res) => {
     const { wineId } = req.params

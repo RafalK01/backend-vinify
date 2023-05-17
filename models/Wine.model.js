@@ -9,12 +9,20 @@ const userSchema = new Schema(
     kind: String,
     origin: String,
     pairingItems: [String],
-    pairinInfo: {
-        fish: [String],
-        meat: [String],
-        vegetables: [String],
-        seafood: [String],
-        cheese: [String],
+    // pairingInfo: {
+    //   type: String,
+    //   enum: ['Fish', 'Meat', 'Vegetables', 'Seafood', 'Cheese']
+    // },
+    pairingInfo: {
+      type: Object,
+      validate: {
+        validator: function (value) {
+          const validKeys = ['Fish', 'Meat', 'Vegetables', 'Seafood', 'Cheese'];
+          const keys = Object.keys(value);
+          return keys.every(key => validKeys.includes(key) && typeof value[key] === 'string');
+        },
+        message: props => `Invalid pairingInfo: ${props.value}`
+      }
     },
     price: Number
   }

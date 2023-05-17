@@ -59,7 +59,6 @@ router.post('/signup', (req, res) => {
         res.status(201).json({ user: user })
       })
       .catch(err => {
-        console.log(err)
         res.status(500).json({ message: "Internal Server Error" })
       })
 })
@@ -90,7 +89,6 @@ router.post('/login', (req, res) => {
         if (passwordCorrect) {
           // Deconstruct the user object to omit the password
           const { _id, email, name } = foundUser
-          console.log(name)
           
           // Create an object that will be set as the token payload
           const payload = { _id, email, name }
@@ -116,11 +114,17 @@ router.post('/login', (req, res) => {
 router.get('/verify', isAuthenticated, (req, res, next) => {
     // If JWT token is valid the payload gets decoded by the
     // isAuthenticated middleware and made available on `req.payload`
-    console.log(`req.payload`, req.payload)
     // Send back the object with user data
     // previously set as the token payload
     res.status(200).json(req.payload)
   })
+
+  router.post('/logout', (req, res) => {
+    // Perform any necessary logout actions
+    // For example, clearing session data or tokens
+    // Respond with a success message
+    res.status(200).json({ message: 'Logged out successfully' });
+  });
 
 
 module.exports = router

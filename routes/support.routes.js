@@ -8,8 +8,6 @@ app.use(express.json())
 app.use(cors())
 
 const API_KEY = process.env.API_KEY
-console.log(API_KEY)
-
 
 router.post('/completions', async (req, res) => {
 

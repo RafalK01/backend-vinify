@@ -15,7 +15,7 @@ router.post('/signup', (req, res) => {
 
     // Check if email or password or name are provided as empty string 
     if (email === '' || password === '' || name === '') {
-        res.status(400).json({ message: "Provide email, password and name" })
+        res.status(400).json({ message: "Please provide your details." })
         return;
       }
     // Use regex to validate the email format
@@ -27,7 +27,7 @@ router.post('/signup', (req, res) => {
     // Use regex to validate the password format
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/
     if (!passwordRegex.test(password)) {
-        res.status(400).json({ message: 'Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.' })
+        res.status(400).json({ message: 'Password must have at least 6 characters and contain at least one number, one special character, one lowercase and one uppercase letter.' })
         return
     }  
     // Check the users collection if a user with the same email already exists
@@ -104,7 +104,7 @@ router.post('/login', (req, res) => {
           res.status(200).json({ authToken: authToken })
         }
         else {
-          res.status(401).json({ message: "Unable to authenticate the user" })
+          res.status(401).json({ message: "Incorrect email or password." })
         }
         })
         .catch(err => res.status(500).json({ message: "Internal Server Error" }))

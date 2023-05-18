@@ -22,8 +22,8 @@ router.get('/user/:id', (req, res) => {
 router.post('/user/:id', async (req, res) => {
     const { id } = req.params;
     const likedWine = req.body.likedWine;
-    const newName = req.body.newData.newName;
-    const newEmail = req.body.newData.newEmail;
+    const newName = req?.body?.newData?.newName;
+    const newEmail = req?.body?.newData?.newEmail;
   
     try {
 

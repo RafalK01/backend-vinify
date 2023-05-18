@@ -34,11 +34,18 @@ router.get('/random-wine', (req, res) => {
     const {  query, kind, origin, paring } = req.query   
 
     if(query){
-      Wine.find({ name: query })
-      .then((result) => res.status(200).json(result))
-      .catch(err => {
-        res.status(500).json({ error: err.message })
-      }) 
+      const regex = new RegExp(query, 'i'); // 'i' flag for case-insensitive matching
+      Wine.find({
+        $or: [
+          { name: { $regex: regex } },
+          { description: { $regex: regex } },
+          { headline: { $regex: regex } }
+        ]
+      })
+        .then((result) => res.status(200).json(result))
+        .catch((err) => {
+          res.status(500).json({ error: err.message });
+      });
     } 
     if(kind){
       Wine.find({kind: kind})
@@ -62,13 +69,6 @@ router.get('/random-wine', (req, res) => {
       }) 
     } 
   })
-
-
-  
-
-  
-
-
 
   router.get('/wine/:wineId', (req, res) => {
     const { wineId } = req.params
